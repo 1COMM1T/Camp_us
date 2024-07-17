@@ -1,4 +1,4 @@
-package com.comm1t.Camp_Us;
+package com.comm1t.campus;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
