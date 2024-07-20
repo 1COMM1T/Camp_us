@@ -1,14 +1,17 @@
 package com.commit.campus.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
 @Getter
+@Setter
+
 public class Camping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long campId;  // 캠핑장 ID
+    private long campId;  // 캠핑장 ID // KEY
 
     private String factNm;  // 시설 이름
     private String lineIntro;  // 한 줄 소개
