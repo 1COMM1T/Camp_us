@@ -17,7 +17,7 @@ public class CampingServiceImpl implements CampingService {
     @Autowired
     private CampingRepository campingRepository;
 
-    // 모든 캠핑장 정보를 조회하는 메서드
+    // 모든 캠핑장 정보를 조회하는 메서드.
     @Override
     public List<CampingDTO> getAllCampings() {
         List<Camping> campings = campingRepository.findAll();

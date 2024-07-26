@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;  // Swagger 어노테이션을 �
 import java.util.List;
 
 @RestController
-@Tag(name = "Camping API", description = "캠핑장 관련 엔드포인트") // API 엔드포인트에 대한 설명 제공
+@Tag(name = "Camping API", description = "캠핑장 관련 엔드포인트") // API 엔드포인트에 대한 설명 제공.
 public class CampingController {
     @Autowired
     private CampingService campingService;

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class Camping {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "camp_id")

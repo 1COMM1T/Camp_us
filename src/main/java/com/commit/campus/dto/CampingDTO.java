@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @ToString
 public class CampingDTO {
+
     private Long campId;
     private String campName;
     private String lineIntro;
