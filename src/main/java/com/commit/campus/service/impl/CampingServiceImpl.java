@@ -17,12 +17,14 @@ public class CampingServiceImpl implements CampingService {
     @Autowired
     private CampingRepository campingRepository;
 
+    // 모든 캠핑장 정보를 조회하는 메서드
     @Override
     public List<CampingDTO> getAllCampings() {
         List<Camping> campings = campingRepository.findAll();
         return campings.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    // 새로운 캠핑장을 생성하는 메서드
     @Override
     public CampingDTO createCamping(CampingDTO campingDTO) {
         Camping camping = convertToEntity(campingDTO);
@@ -30,21 +32,26 @@ public class CampingServiceImpl implements CampingService {
         return convertToDTO(savedCamping);
     }
 
+    // 캠핑장 정보를 페이지네이션과 정렬을 적용하여 조회하는 메서드
     @Override
     public List<CampingDTO> getCampings(String doName, String sigunguName, int page, int size, String sort, String order) {
+        // 오프셋 계산
         int offset = page * size;
 
+        // 캠핑 목록을 가져오는 쿼리 호출
         List<Camping> campings = campingRepository.findCampings(doName, sigunguName, offset, size);
         long total = campingRepository.countCampings(doName, sigunguName);
 
+        // 캠핑 목록을 DTO로 변환하고 정렬 적용
         List<CampingDTO> campingDtos = campings.stream()
                 .map(this::convertToDTO)
-                .sorted(getComparator(sort, order))
+                .sorted(getComparator(sort, order)) // 정렬 적용
                 .collect(Collectors.toList());
 
         return campingDtos;
     }
 
+    // 정렬 기준에 따른 Comparator 생성
     private Comparator<CampingDTO> getComparator(String sort, String order) {
         Comparator<CampingDTO> comparator;
         if ("campName".equals(sort)) {
@@ -60,6 +67,7 @@ public class CampingServiceImpl implements CampingService {
         return comparator;
     }
 
+    // Entity를 DTO로 변환하는 메서드
     private CampingDTO convertToDTO(Camping camping) {
         CampingDTO dto = new CampingDTO();
         dto.setCampId(camping.getCampId());
@@ -88,6 +96,7 @@ public class CampingServiceImpl implements CampingService {
         return dto;
     }
 
+    // DTO를 Entity로 변환하는 메서드
     private Camping convertToEntity(CampingDTO dto) {
         Camping camping = new Camping();
         camping.setCampId(dto.getCampId());
@@ -116,3 +125,4 @@ public class CampingServiceImpl implements CampingService {
         return camping;
     }
 }
+
