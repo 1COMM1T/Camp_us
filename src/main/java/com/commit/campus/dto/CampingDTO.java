@@ -1,11 +1,17 @@
 package com.commit.campus.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class CampingDTO {
+
     private Long campId;
     private String campName;
     private String lineIntro;
@@ -32,4 +38,7 @@ public class CampingDTO {
     // 응답용 필드
     private List<CampingDTO> campings;  // 캠핑 목록
     private long total;                 // 캠핑장의 총 개수
+
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 }
