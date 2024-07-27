@@ -7,16 +7,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Camping view model")
+@Schema(description = "캠핑 뷰 모델")
 public class CampingViewModel {
 
-    @Schema(description = "The unique ID of the camping site")
+    @Schema(description = "캠핑장의 고유 ID")
     private Long campId;
 
-    @Schema(description = "The name of the camping site")
+    @Schema(description = "캠핑장 이름")
     private String campName;
 
-    @Schema(description = "The location of the camping site")
+    @Schema(description = "캠핑장 위치")
     private String location;
 
     // 캠핑 엔티티에서 필요에 따라 필드를 더 추가
