@@ -16,14 +16,40 @@ public class CampingViewModel {
     @Schema(description = "캠핑장 이름")
     private String campName;
 
-    @Schema(description = "캠핑장 위치")
-    private String location;
+    @Schema(description = "한줄 소개")
+    private String lineIntro;
 
-    // 캠핑 엔티티에서 필요에 따라 필드를 더 추가
+    @Schema(description = "캠핑장 특징")
+    private String featureSummary;
+
+    @Schema(description = "주소")
+    private String addr;
+
+    @Schema(description = "위도")
+    private Double mapX;
+
+    @Schema(description = "경도")
+    private Double mapY;
+
+    @Schema(description = "전화번호")
+    private String tel;
+
+    @Schema(description = "홈페이지")
+    private String homepage;
+
+    @Schema(description = "대표 이미지 URL")
+    private String firstImageUrl;
 
     public CampingViewModel(Camping entity) {
         this.campId = entity.getCampId();
         this.campName = entity.getCampName();
-        this.location = entity.getAddr();
+        this.lineIntro = entity.getLineIntro();
+        this.featureSummary = entity.getFeatureSummary();
+        this.addr = entity.getAddr();
+        this.mapX = entity.getMapX();
+        this.mapY = entity.getMapY();
+        this.tel = entity.getTel();
+        this.homepage = entity.getHomepage();
+        this.firstImageUrl = entity.getFirstImageUrl();
     }
 }

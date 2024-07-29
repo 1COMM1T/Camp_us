@@ -94,6 +94,9 @@ public class Camping {
     @Column(name = "operation_day")
     private String operationDay; // 운영일
 
+    @Column(name = "first_image_url")
+    private String firstImageUrl; // 대표이미지
+
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
@@ -109,4 +112,5 @@ public class Camping {
     protected void onUpdate() {
         modifiedDate = LocalDateTime.now();
     }
+
 }

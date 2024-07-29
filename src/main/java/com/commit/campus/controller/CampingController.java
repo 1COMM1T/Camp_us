@@ -32,7 +32,7 @@ public class CampingController {
             @RequestParam(defaultValue = "desc") @Parameter(description = "정렬 순서", example = "desc") String order) {
         List<Camping> campings = campingService.getCampings(doName, sigunguName, page, size, sort, order);
         return campings.stream()
-                .map(CampingViewModel::new) // 엔티티를 ViewModel로 변환
+                .map(CampingViewModel::new) // 엔티티를 ViewModel로 변환.
                 .collect(Collectors.toList());
     }
 }

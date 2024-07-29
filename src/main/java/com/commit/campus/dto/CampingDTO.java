@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class CampingDTO {
 
-    private Long campId;
+    private Long campId;        // 캠핑 pk contentId를 가져와 사용예정
     private String campName;
     private String lineIntro;
     private String intro;

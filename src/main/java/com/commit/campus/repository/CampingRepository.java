@@ -18,7 +18,7 @@ public interface CampingRepository extends JpaRepository<Camping, Long> {
                                @Param("offset") int offset,
                                @Param("limit") int limit);
 
-    // 캠핑장 총 개수
+    // 캠핑장 총 개수.
     @Query(value = "SELECT COUNT(*) FROM camping WHERE do_name = :doName AND (:sigunguName IS NULL OR sigungu_name = :sigunguName)", nativeQuery = true)
     long countCampings(@Param("doName") String doName,
                        @Param("sigunguName") String sigunguName);
