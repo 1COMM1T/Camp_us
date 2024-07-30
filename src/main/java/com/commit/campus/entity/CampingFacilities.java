@@ -48,5 +48,4 @@ public class CampingFacilities {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facs_type_id", insertable = false, updatable = false)
     private FacilityType facilityTypeEntity;
-
 }
