@@ -43,10 +43,16 @@ public class CampingServiceImpl implements CampingService {
     // 정렬 기준과 순서를 기반으로 Comparator를 반환하는 메서드
     private Comparator<Camping> getComparator(String sort, String order) {
         Comparator<Camping> comparator;
-        if ("campName".equals(sort)) { // 정렬 기준이 캠핑장 이름인 경우
-            comparator = Comparator.comparing(Camping::getCampName);
-        } else { // 그 외에는 생성 날짜를 기준으로 정렬
-            comparator = Comparator.comparing(Camping::getCreatedDate);
+
+        switch (sort) {
+            case "campName":
+                comparator = Comparator.comparing(Camping::getCampName, Comparator.nullsLast(Comparator.naturalOrder()));
+                break;
+            case "createdDate":
+                comparator = Comparator.comparing(Camping::getCreatedDate, Comparator.nullsLast(Comparator.naturalOrder()));
+                break;
+            default:
+                comparator = Comparator.comparing(Camping::getCampId, Comparator.nullsLast(Comparator.naturalOrder()));
         }
 
         if ("desc".equalsIgnoreCase(order)) { // 정렬 순서가 내림차순인 경우
