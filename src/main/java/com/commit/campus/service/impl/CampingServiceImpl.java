@@ -30,11 +30,11 @@ public class CampingServiceImpl implements CampingService {
         return campingRepository.save(camping); // 새로운 캠핑장을 데이터베이스에 저장하고 저장된 객체를 반환
     }
 
-    // 특정 도와 시군구의 캠핑장 리스트를 페이지네이션과 정렬을 적용하여 조회하는 메서드
+    // 특정 도와 시군구, 시설유형별로 캠핑장 리스트를 페이지네이션과 정렬을 적용하여 조회하는 메서드
     @Override
-    public List<Camping> getCampings(String doName, String sigunguName, int page, int size, String sort, String order) {
+    public List<Camping> getCampings(String doName, String sigunguName, Integer glampingSiteCnt, Integer caravanSiteCnt, int page, int size, String sort, String order) {
         int offset = page * size; // 페이지 번호와 페이지 크기를 기반으로 오프셋 계산
-        List<Camping> campings = campingRepository.findCampings(doName, sigunguName, offset, size); // 특정 도와 시군구의 캠핑장 리스트를 조회
+        List<Camping> campings = campingRepository.findCampings(doName, sigunguName, glampingSiteCnt, caravanSiteCnt, offset, size); // 특정 도와 시군구의 캠핑장 리스트를 조회
         return campings.stream()
                 .sorted(getComparator(sort, order)) // 정렬 기준과 순서를 적용하여 캠핑장 리스트 정렬
                 .collect(Collectors.toList()); // 정렬된 캠핑장 리스트를 리스트로 수집하여 반환

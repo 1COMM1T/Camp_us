@@ -10,17 +10,28 @@ import java.util.List;
 
 @Repository
 public interface CampingRepository extends JpaRepository<Camping, Long> {
-    // 오프셋 기반 페이지네이션 사용, doName이 null일 경우 전체 조회
-    @Query(value = "SELECT * FROM camping WHERE (:doName IS NULL OR do_name = :doName) AND (:sigunguName IS NULL OR sigungu_name = :sigunguName) " +
+
+    @Query(value = "SELECT * FROM camping " +
+            "WHERE (:doName IS NULL OR do_name = :doName) " +
+            "AND (:sigunguName IS NULL OR sigungu_name = :sigunguName) " +
+            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt > 0) " +
+            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt > 0) " +
             "ORDER BY camp_id " +
             "LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Camping> findCampings(@Param("doName") String doName,
                                @Param("sigunguName") String sigunguName,
+                               @Param("glampingSiteCnt") Integer glampingSiteCnt,
+                               @Param("caravanSiteCnt") Integer caravanSiteCnt,
                                @Param("offset") int offset,
                                @Param("limit") int limit);
 
-    @Query(value = "SELECT COUNT(*) FROM camping WHERE (:doName IS NULL OR do_name = :doName) AND (:sigunguName IS NULL OR sigungu_name = :sigunguName)", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM camping " +
+            "WHERE (:doName IS NULL OR do_name = :doName) " +
+            "AND (:sigunguName IS NULL OR sigungu_name = :sigunguName) " +
+            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt > 0) " +
+            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt > 0)", nativeQuery = true)
     long countCampings(@Param("doName") String doName,
-                       @Param("sigunguName") String sigunguName);
+                       @Param("sigunguName") String sigunguName,
+                       @Param("glampingSiteCnt") Integer glampingSiteCnt,
+                       @Param("caravanSiteCnt") Integer caravanSiteCnt);
 }
-
