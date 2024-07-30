@@ -25,12 +25,6 @@ public class CampingViewModel {
     @Schema(description = "주소")
     private String addr;
 
-    @Schema(description = "위도")
-    private Double mapX;
-
-    @Schema(description = "경도")
-    private Double mapY;
-
     @Schema(description = "전화번호")
     private String tel;
 
@@ -46,8 +40,6 @@ public class CampingViewModel {
         this.lineIntro = entity.getLineIntro();
         this.featureSummary = entity.getFeatureSummary();
         this.addr = entity.getAddr();
-        this.mapX = entity.getMapX();
-        this.mapY = entity.getMapY();
         this.tel = entity.getTel();
         this.homepage = entity.getHomepage();
         this.firstImageUrl = entity.getFirstImageUrl();
