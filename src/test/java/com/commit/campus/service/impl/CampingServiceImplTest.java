@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 class CampingServiceTest {
@@ -31,15 +32,17 @@ class CampingServiceTest {
     @Test
     void testGetCampings() {
         // given
-        Camping camping1 = new Camping();
-        camping1.setCampName("Camping1");
-        camping1.setGlampingSiteCnt(5);
-        camping1.setCaravanSiteCnt(2);
+        Camping camping1 = Camping.builder()
+                .campName("Camping1")
+                .glampingSiteCnt(5)
+                .caravanSiteCnt(2)
+                .build();
 
-        Camping camping2 = new Camping();
-        camping2.setCampName("Camping2");
-        camping2.setGlampingSiteCnt(0);
-        camping2.setCaravanSiteCnt(3);
+        Camping camping2 = Camping.builder()
+                .campName("Camping2")
+                .glampingSiteCnt(0)
+                .caravanSiteCnt(3)
+                .build();
 
         List<Camping> expectedCampings = Arrays.asList(camping1, camping2);
 
@@ -56,11 +59,13 @@ class CampingServiceTest {
     @Test
     void testGetAllCampings() {
         // given
-        Camping camping1 = new Camping();
-        camping1.setCampName("Camping1");
+        Camping camping1 = Camping.builder()
+                .campName("Camping1")
+                .build();
 
-        Camping camping2 = new Camping();
-        camping2.setCampName("Camping2");
+        Camping camping2 = Camping.builder()
+                .campName("Camping2")
+                .build();
 
         List<Camping> expectedCampings = Arrays.asList(camping1, camping2);
 
