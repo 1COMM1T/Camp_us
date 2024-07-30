@@ -4,7 +4,9 @@ import com.commit.campus.entity.Camping;
 import com.commit.campus.service.CampingService;
 import com.commit.campus.view.CampingViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,10 +27,10 @@ public class CampingController {
     @GetMapping("/v1/campings")
     @Operation(summary = "캠핑장 리스트 조회", description = "특정 도와 시군구, 글램핑 및 카라반 사이트 유무에 따라 캠핑장 리스트를 페이지네이션과 정렬을 적용하여 조회합니다.")
     public List<CampingViewModel> getCampings(
-            @RequestParam(required = false) @Parameter(description = "도의 이름") String doName,
-            @RequestParam(required = false) @Parameter(description = "시군구의 이름") String sigunguName,
-            @RequestParam(required = false) @Parameter(description = "글램핑 사이트 개수") Integer glampingSiteCnt,
-            @RequestParam(required = false) @Parameter(description = "카라반 사이트 개수") Integer caravanSiteCnt,
+            @RequestParam(required = false) @Parameter(description = "지역1의 이름") String doName,
+            @RequestParam(required = false) @Parameter(description = "지역2의 이름") String sigunguName,
+            @RequestParam(required = false) @Parameter(description = "글램핑 개수") Integer glampingSiteCnt,
+            @RequestParam(required = false) @Parameter(description = "카라반 개수") Integer caravanSiteCnt,
             @RequestParam(defaultValue = "0") @Parameter(description = "페이지 번호", example = "0") int page,
             @RequestParam(defaultValue = "10") @Parameter(description = "페이지 크기", example = "10") int size,
             @RequestParam(defaultValue = "campId") @Parameter(description = "정렬 필드", example = "campId") String sort,
@@ -37,5 +40,14 @@ public class CampingController {
         return campings.stream()
                 .map(CampingViewModel::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/v1/campings/{id}")
+    @Operation(summary = "캠핑장 단일 조회", description = "특정 ID의 캠핑장 상세 정보를 조회합니다.")
+    public ResponseEntity<CampingViewModel> getCampingById(
+            @PathVariable @Parameter(description = "캠핑장 ID", required = true) Long id) {
+        Optional<Camping> camping = campingService.getCampingById(id);
+        return camping.map(value -> ResponseEntity.ok(new CampingViewModel(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

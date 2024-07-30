@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,13 @@ public class CampingServiceImpl implements CampingService {
                 .sorted(getComparator(sort, order)) // 정렬 기준과 순서를 적용하여 캠핑장 리스트 정렬
                 .collect(Collectors.toList()); // 정렬된 캠핑장 리스트를 리스트로 수집하여 반환
     }
+
+    // 특정 ID의 캠핑장 정보를 조회하는 메서드 (추가된 부분)
+    @Override
+    public Optional<Camping> getCampingById(Long campId) {
+        return campingRepository.findById(campId); // 캠핑장 ID로 데이터를 조회
+    }
+
 
     // 정렬 기준과 순서를 기반으로 Comparator를 반환하는 메서드
     private Comparator<Camping> getComparator(String sort, String order) {

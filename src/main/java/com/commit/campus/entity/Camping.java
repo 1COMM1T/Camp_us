@@ -110,4 +110,14 @@ public class Camping implements Serializable {
 
     @OneToMany(mappedBy = "campingEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampingFacilities> campingFacilities;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastModifiedDate = LocalDateTime.now();
+    }
 }

@@ -1,9 +1,12 @@
 package com.commit.campus.view;
 
 import com.commit.campus.entity.Camping;
+import com.commit.campus.entity.CampingFacilities;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +37,15 @@ public class CampingViewModel {
     @Schema(description = "대표 이미지 URL")
     private String firstImageUrl;
 
+    @Schema(description = "글램핑 사이트 수")
+    private int glampingSiteCnt;
+
+    @Schema(description = "카라반 사이트 수")
+    private int caravanSiteCnt;
+/*
+    @Schema(description = "캠핑장 시설 목록")
+    private List<CampingFacilities> facilities;*/
+
     public CampingViewModel(Camping entity) {
         this.campId = entity.getCampId();
         this.campName = entity.getCampName();
@@ -43,5 +55,8 @@ public class CampingViewModel {
         this.tel = entity.getTel();
         this.homepage = entity.getHomepage();
         this.firstImageUrl = entity.getFirstImageUrl();
+        this.glampingSiteCnt = entity.getGlampingSiteCnt();
+        this.caravanSiteCnt = entity.getCaravanSiteCnt();
+        /*this.facilities = entity.getCampingFacilities(); // 시설 목록 초기화*/
     }
 }
