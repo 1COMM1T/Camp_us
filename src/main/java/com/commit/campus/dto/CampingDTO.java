@@ -1,12 +1,8 @@
 package com.commit.campus.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class CampingDTO {
@@ -34,7 +30,13 @@ public class CampingDTO {
     private int personalCaravanSiteCnt;
     private int contentId;
 
-
+    // 추가된 필드
+    private String supportFacilities; // 부대시설(편의시설)
+    private String outdoorActivities; // 주변시설
+    private String petAccess; // 반려동물 출입 여부
+    private String rentalGearList; // 대여 장비 목록
+    private String operationDay; // 운영일
+    private String firstImageUrl; // 대표이미지
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

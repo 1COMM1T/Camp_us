@@ -14,8 +14,8 @@ public interface CampingRepository extends JpaRepository<Camping, Long> {
     @Query(value = "SELECT * FROM camping " +
             "WHERE (:doName IS NULL OR do_name = :doName) " +
             "AND (:sigunguName IS NULL OR sigungu_name = :sigunguName) " +
-            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt > 0) " +
-            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt > 0) " +
+            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt >= :glampingSiteCnt) " +
+            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt >= :caravanSiteCnt) " +
             "ORDER BY camp_id " +
             "LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Camping> findCampings(@Param("doName") String doName,
@@ -28,10 +28,11 @@ public interface CampingRepository extends JpaRepository<Camping, Long> {
     @Query(value = "SELECT COUNT(*) FROM camping " +
             "WHERE (:doName IS NULL OR do_name = :doName) " +
             "AND (:sigunguName IS NULL OR sigungu_name = :sigunguName) " +
-            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt > 0) " +
-            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt > 0)", nativeQuery = true)
+            "AND (:glampingSiteCnt IS NULL OR glamping_site_cnt >= :glampingSiteCnt) " +
+            "AND (:caravanSiteCnt IS NULL OR caravan_site_cnt >= :caravanSiteCnt)", nativeQuery = true)
     long countCampings(@Param("doName") String doName,
                        @Param("sigunguName") String sigunguName,
                        @Param("glampingSiteCnt") Integer glampingSiteCnt,
                        @Param("caravanSiteCnt") Integer caravanSiteCnt);
+
 }
