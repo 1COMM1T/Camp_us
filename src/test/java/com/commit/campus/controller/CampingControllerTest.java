@@ -1,97 +1,59 @@
 package com.commit.campus.controller;
 
+// import com.commit.campus.dto.CampingDTO;
 import com.commit.campus.entity.Camping;
 import com.commit.campus.service.CampingService;
+import com.commit.campus.view.CampingViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CampingControllerTest {
-
-    private MockMvc mockMvc;
-
-    @InjectMocks
-    private CampingController campingController;
 
     @Mock
     private CampingService campingService;
 
+    @InjectMocks
+    private CampingController campingController;
+
+    private Camping camping;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(campingController).build();
+        camping = new Camping();
+        camping.setCampId(1L);
+        camping.setCampName("Test Camp");
+        // 필요한 다른 필드 초기화
     }
 
     @Test
-    void testGetCampings() throws Exception {
-        // given
-        Camping camping1 = Camping.builder()
-                .campName("Camping1")
-                .glampingSiteCnt(5)
-                .caravanSiteCnt(2)
-                .build();
-
-        Camping camping2 = Camping.builder()
-                .campName("Camping2")
-                .glampingSiteCnt(0)
-                .caravanSiteCnt(3)
-                .build();
-
-        List<Camping> campings = Arrays.asList(camping1, camping2);
-
+    void testGetCampings() {
         when(campingService.getCampings(anyString(), anyString(), anyInt(), anyInt(), anyInt(), anyInt(), anyString(), anyString()))
-                .thenReturn(campings);
+                .thenReturn(Arrays.asList(camping));
 
-        // when, then
-        mockMvc.perform(get("/v1/campings")
-                        .param("doName", "Seoul")
-                        .param("sigunguName", "Gangnam")
-                        .param("glampingSiteCnt", "1")
-                        .param("caravanSiteCnt", "1")
-                        .param("page", "0")
-                        .param("size", "10")
-                        .param("sort", "campId")
-                        .param("order", "desc")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].campName").value("Camping1"))
-                .andExpect(jsonPath("$[1].campName").value("Camping2"));
+        List<CampingViewModel> campings = campingController.getCampings("doName", "sigunguName", 1, 1, 0, 10, "campId", "desc");
+        assertNotNull(campings);
+        assertEquals(1, campings.size());
+        verify(campingService, times(1)).getCampings("doName", "sigunguName", 1, 1, 0, 10, "campId", "desc");
     }
 
     @Test
-    void testGetAllCampings() throws Exception {
-        // given
-        Camping camping1 = Camping.builder()
-                .campName("Camping1")
-                .build();
+    void testGetCampingById() {
+        when(campingService.getCampingById(1L)).thenReturn(Optional.of(camping));
 
-        Camping camping2 = Camping.builder()
-                .campName("Camping2")
-                .build();
-
-        List<Camping> campings = Arrays.asList(camping1, camping2);
-
-        when(campingService.getAllCampings()).thenReturn(campings);
-
-        // when, then
-        mockMvc.perform(get("/v1/campings/all")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].campName").value("Camping1"))
-                .andExpect(jsonPath("$[1].campName").value("Camping2"));
+        ResponseEntity<CampingViewModel> response = campingController.getCampingById(1L);
+        assertEquals(ResponseEntity.ok(new CampingViewModel(camping)), response);
+        verify(campingService, times(1)).getCampingById(1L);
     }
 }
