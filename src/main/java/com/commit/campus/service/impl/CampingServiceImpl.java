@@ -1,8 +1,12 @@
 package com.commit.campus.service.impl;
 
+import com.commit.campus.dto.CampingDTO;
+import com.commit.campus.dto.CampingFacilitiesDTO;
 import com.commit.campus.entity.Camping;
+import com.commit.campus.entity.CampingFacilities;
 import com.commit.campus.repository.CampingRepository;
 import com.commit.campus.service.CampingService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,41 +18,50 @@ import java.util.stream.Collectors;
 @Service
 public class CampingServiceImpl implements CampingService {
 
-    // CampingRepository를 주입받음
     @Autowired
     private CampingRepository campingRepository;
 
-    // 모든 캠핑장 정보를 조회하는 메서드
     @Override
     public List<Camping> getAllCampings() {
-        List<Camping> campings = campingRepository.findAll(); // 모든 캠핑장 정보를 데이터베이스에서 조회
-        return campings; // 조회한 캠핑장 리스트를 반환
+        return campingRepository.findAll();
     }
 
-    // 새로운 캠핑장을 생성하는 메서드
     @Override
     public Camping createCamping(Camping camping) {
-        return campingRepository.save(camping); // 새로운 캠핑장을 데이터베이스에 저장하고 저장된 객체를 반환
+        return campingRepository.save(camping);
     }
 
-    // 특정 도와 시군구, 시설유형별로 캠핑장 리스트를 페이지네이션과 정렬을 적용하여 조회하는 메서드
     @Override
     public List<Camping> getCampings(String doName, String sigunguName, Integer glampingSiteCnt, Integer caravanSiteCnt, int page, int size, String sort, String order) {
-        int offset = page * size; // 페이지 번호와 페이지 크기를 기반으로 오프셋 계산
-        List<Camping> campings = campingRepository.findCampings(doName, sigunguName, glampingSiteCnt, caravanSiteCnt, offset, size); // 특정 도와 시군구의 캠핑장 리스트를 조회
+        int offset = page * size;
+        List<Camping> campings = campingRepository.findCampings(doName, sigunguName, glampingSiteCnt, caravanSiteCnt, offset, size);
         return campings.stream()
-                .sorted(getComparator(sort, order)) // 정렬 기준과 순서를 적용하여 캠핑장 리스트 정렬
-                .collect(Collectors.toList()); // 정렬된 캠핑장 리스트를 리스트로 수집하여 반환
+                .sorted(getComparator(sort, order))
+                .collect(Collectors.toList());
     }
 
-    // 특정 ID의 캠핑장 정보를 조회하는 메서드 (추가된 부분)
     @Override
     public Optional<Camping> getCampingById(Long campId) {
-        return campingRepository.findById(campId); // 캠핑장 ID로 데이터를 조회
+        return campingRepository.findById(campId);
     }
 
+    @Override
+    public CampingDTO toCampingDTO(Camping camping) {
+        CampingDTO dto = new CampingDTO();
+        BeanUtils.copyProperties(camping, dto);
+        List<CampingFacilitiesDTO> facilitiesDTOList = camping.getCampingFacilities().stream()
+                .map(this::convertToFacilitiesDTO)
+                .collect(Collectors.toList());
+        dto.setCampingFacilities(facilitiesDTOList);
+        return dto;
+    }
 
-    // 정렬 기준과 순서를 기반으로 Comparator를 반환하는 메서드
+    private CampingFacilitiesDTO convertToFacilitiesDTO(CampingFacilities facilities) {
+        CampingFacilitiesDTO dto = new CampingFacilitiesDTO();
+        BeanUtils.copyProperties(facilities, dto);
+        return dto;
+    }
+
     private Comparator<Camping> getComparator(String sort, String order) {
         Comparator<Camping> comparator;
 
@@ -63,10 +76,11 @@ public class CampingServiceImpl implements CampingService {
                 comparator = Comparator.comparing(Camping::getCampId, Comparator.nullsLast(Comparator.naturalOrder()));
         }
 
-        if ("desc".equalsIgnoreCase(order)) { // 정렬 순서가 내림차순인 경우
-            comparator = comparator.reversed(); // Comparator를 역순으로 변경
+        if ("desc".equalsIgnoreCase(order)) {
+            comparator = comparator.reversed();
         }
 
-        return comparator; // 최종 Comparator 반환
+        return comparator;
     }
 }
+

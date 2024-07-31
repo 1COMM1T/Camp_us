@@ -1,5 +1,6 @@
 package com.commit.campus.service;
 
+import com.commit.campus.dto.CampingDTO;
 import com.commit.campus.entity.Camping;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface CampingService {
 
     // 단일 캠핑장 정보를 조회하는 메서드.
     Optional<Camping> getCampingById(Long campId);
+
+    // DTO 변환 메서드
+    CampingDTO toCampingDTO(Camping camping);
 }
