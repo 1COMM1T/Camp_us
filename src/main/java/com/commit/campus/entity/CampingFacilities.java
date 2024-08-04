@@ -11,6 +11,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table(name = "camping_facilities")
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CampingFacilities {
     @Id
