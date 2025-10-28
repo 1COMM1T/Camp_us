@@ -11,7 +11,7 @@
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/bucky1005)
 
 - 🎀 팀원 : **박찬호**
-[<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Yuharee)
+[<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Yuhu-Studio)
 
 - 🐹 팀원 : **김동환**
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/antmrhdqn)
